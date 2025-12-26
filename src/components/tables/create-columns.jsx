@@ -12,6 +12,9 @@ export function createColumns({ columns, onEdit, onDelete, onView }) {
 
         return (
           <div className="flex justify-end gap-2">
+            <Button size="sm" variant="outline" onClick={() => onView?.(data)}>
+              <Eye className="h-4 w-4" />
+            </Button>
             <Button size="sm" variant="outline" onClick={() => onEdit?.(data)}>
               <Pencil className="h-4 w-4" />
             </Button>
