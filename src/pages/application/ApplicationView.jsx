@@ -1,31 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { jsPDF } from "jspdf";
 import { useParams } from "react-router-dom";
-
+import { useSelector } from "react-redux";
 const ApplicationView = () => {
   const { id } = useParams();
   const [pdfurl, setPdfurl] = useState(null);
-  const application = {
-    id,
-    name: "John Doe",
-    email: "john.doe@example.com",
-    status: "Approved",
-    internshipTitle: "Software Engineering Intern",
-    applicationDate: "2023-10-01",
-    resumeUrl: "https://example.com/resume/johndoe.pdf",
-  };
+
+  const { application } = useSelector((state) => state.applicationInfo);
+  console.log(application);
   const buildPDF = () => {
     const doc = new jsPDF();
     doc.setFontSize(18);
     doc.text("Application Details", 80, 20);
 
     doc.setFontSize(12);
-    console.log(application.id);
-    doc.text(`Application ID: ${application.id}`, 20, 40);
-    doc.text(`Name: ${application.name}`, 20, 50);
-    doc.text(`Email: ${application.email}`, 20, 60);
-    doc.text(`Status: ${application.status}`, 20, 70);
-    doc.text(`Internship: ${application.internshipTitle}`, 20, 80);
+    console.log(application?.id);
+    doc.text(`Application ID: ${application?.id}`, 20, 40);
+    doc.text(`Name: ${application?.name}`, 20, 50);
+    doc.text(`Email: ${application?.email}`, 20, 60);
+    doc.text(`Status: ${application?.status}`, 20, 70);
+    doc.text(`Internship: ${application?.internshipTitle}`, 20, 80);
     doc.text(`Application Date: ${application.applicationDate}`, 20, 90);
 
     doc.text("Resume:", 20, 100);
@@ -34,9 +28,9 @@ const ApplicationView = () => {
     // doc.link(20, 65, 160, 8, {
     //   url: application.resumeUrl,
     // });
-    doc.textWithLink(application.resumeUrl, 20, 110, {
-      url: application.resumeUrl,
-    });
+    // doc.textWithLink(application?.resumeUrl, 20, 110, {
+    //   url: application?.resumeUrl,
+    // });
     return doc;
     // doc.save(`application-${application.id}.pdf`);
   };
