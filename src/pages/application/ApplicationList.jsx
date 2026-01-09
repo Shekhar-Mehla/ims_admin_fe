@@ -53,8 +53,8 @@ const ApplicationList = () => {
     setFilters((prev) => ({ ...prev, [filterType]: value }));
   };
 
-  const filteredApplications = applications.filter((app) => {
-    const name = app.profileId.fName + " " + app.profileId.lName;
+  const filteredApplications = applications?.filter((app) => {
+    const name = app?.profileId?.fName + " " + app?.profileId?.lName;
     const matchesSearch =
       app._id.toLowerCase().includes(filters.search.toLowerCase()) ||
       name.toLowerCase().includes(filters.search.toLowerCase());

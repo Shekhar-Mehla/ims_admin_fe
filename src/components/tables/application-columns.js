@@ -14,7 +14,7 @@ export const applicationBaseColumns = [
   },
   {
     header: "Applicant Name",
-    accessorFn: (row) => `${row.profileId.fName} ${row.profileId.lName}`,
+    accessorFn: (row) => `${row.profileId?.fName} ${row.profileId?.lName}`,
   },
   {
     accessorKey: "status",

@@ -19,6 +19,7 @@ export function createColumns({ columns, onEdit, onDelete, onView }) {
               <Pencil className="h-4 w-4" />
             </Button>
 
+            {onDelete && (
             <Button
               size="sm"
               variant="destructive"
@@ -26,6 +27,7 @@ export function createColumns({ columns, onEdit, onDelete, onView }) {
             >
               <Trash2 className="h-4 w-4" />
             </Button>
+            )}
           </div>
         );
       },

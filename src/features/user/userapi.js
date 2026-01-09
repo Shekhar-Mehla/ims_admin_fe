@@ -12,6 +12,11 @@ export const registerUser = async (userData) => {
 
   return await apiProcessor({ url, method, payload });
 };
+export const getUserProfile = async () => {
+  const url = `${userApi}/profile`;
+  const method = "GET";
+  return await apiProcessor({ url, method, isPrivate: true });
+};
 
 export const loginUser = async (userData) => {
   console.log(userData);
@@ -26,3 +31,52 @@ export const verifyEmail = async (token) => {
   const method = "GET";
   return await apiProcessor({ url, method });
 };
+
+export const updateProfile = async (profileData) => {
+  const url = `${userApi}/profile`;
+  const method = "PUT";
+  const payload = profileData;
+  return await apiProcessor({ url, method, payload, isPrivate: true });
+};
+
+export const changePassword = async (passwordData) => {
+  const url = `${userApi}/change-password`;
+  const method = "PUT";
+  const payload = passwordData;
+  return await apiProcessor({ url, method, payload, isPrivate: true });
+};
+
+export const fetchNewAccessTokenApi = async () => {
+  const url = `${userApi}/refresh-token`;
+  const method = "POST";
+  return await apiProcessor({ url, method, isPrivate: true,isAcessJWT:false });
+};  
+
+export const logoutUser = async () => {
+  const method = "POST";
+  return await apiProcessor({ url, method, isPrivate: true });
+};
+
+export const getAllUsers = async () => {
+    const url = `${userApi}/all`;
+    const method = "GET";
+    return await apiProcessor({ url, method, isPrivate: true });
+};
+
+export const inviteStaff = async (data) => {
+  return await apiProcessor({
+      url: `${userApi}/invite-staff`,
+      method: "POST",
+      payload: data,
+      isPrivate: true,
+  });
+};
+
+export const deleteUserApi = async (userId) => {
+  return await apiProcessor({
+      url: `${userApi}/delete-user/${userId}`,
+      method: "DELETE",
+      isPrivate: true,
+  });
+};
+
