@@ -1,19 +1,24 @@
-import { fetchNewAccessTokenApi, getUserProfile, loginUser, getAllUsers, updateProfile, changePassword, logoutUser, deleteUserApi } from "./userapi.js";
-import { setUser, setUsersList } from "./userslice.js";
+import { getAllUsers, getUserProfile, loginUser, updateProfile, inviteStaff, deleteUserApi, resetPasswordByToken, getUserProfileByIdApi, updateAnyUserApi } from "./userapi.js";
+import { setUsersList, setUser, setSelectedUser } from "./userslice.js";
 export const loginAction = (userData) => async (dispatch) => {
-  const tokens = await loginUser(userData);
+  const result = await loginUser(userData);
 
-  const { status, payload } = tokens;
-  console.log(payload, "...");
+  const { status, payload, message } = result;
+
+  if (status === "success" && message === "change password") {
+    return { status, payload, message };
+  }
 
   if (status === "success" && payload) {
     sessionStorage.setItem("accessToken", payload.accessToken);
     localStorage.setItem("refreshToken", payload.refreshToken);
     const user = await getUserProfile();
     if (user.status === "success" && user.payload) {
-      return dispatch(setUser(user.payload));
+      dispatch(setUser(user.payload));
+      return { status: "success" };
     }
   }
+  return result;
 };
 
 
@@ -111,4 +116,34 @@ export const deleteUserAction = (userId) => async (dispatch) => {
         return { success: true, message: response.message };
     }
     return { success: false, message: response.message };
+};
+export const resetPasswordByTokenAction = (passwordData, token) => async (dispatch) => {
+    const response = await resetPasswordByToken(passwordData, token);
+    return response;
+};
+export const getUserProfileByIdAction = (userId) => async (dispatch) => {
+  try {
+    const result = await getUserProfileByIdApi(userId);
+    if (result?.status === "success") {
+      dispatch(setSelectedUser(result.payload));
+      return { success: true };
+    }
+    return { success: false, message: result?.message };
+  } catch (error) {
+    console.error("Error in getUserProfileByIdAction:", error);
+    return { success: false, message: "An error occurred" };
+  }
+};
+export const updateAnyUserAction = (id, data) => async (dispatch) => {
+  try {
+    const result = await updateAnyUserApi(id, data);
+    if (result?.status === "success") {
+       dispatch(getAllUsersAction()); // Refresh list
+       return { success: true };
+    }
+    return { success: false, message: result?.message };
+  } catch (error) {
+    console.error("Error in updateAnyUserAction:", error);
+    return { success: false, message: "An error occurred" };
+  }
 };

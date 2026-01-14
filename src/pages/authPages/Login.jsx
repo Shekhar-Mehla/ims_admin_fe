@@ -59,9 +59,14 @@ useEffect(() => {
     // simulate API call
     if (email && password) {
       const result = await dispatch(loginAction({ email, password }));
-      return result
-      
-      
+      if (result?.status === "success" && result?.message === "change password") {
+        // extract token from link
+        const link = result?.payload;
+        const token = new URL(link).searchParams.get("token");
+        navigate(`/reset-password?token=${token}`);
+        return;
+      }
+      return result;
     }
   };
 
@@ -108,15 +113,6 @@ useEffect(() => {
               <CardDescription className="text-gray-600 dark:text-gray-300 mt-1">
                 Enter your email and password below
               </CardDescription>
-              <CardAction>
-                <Link
-                  to="/register"
-                  variant=""
-                  className="p-0 text-blue-600 hover:underline"
-                >
-                  Sign Up
-                </Link>
-              </CardAction>
             </CardHeader>
 
             <CardContent>
@@ -160,8 +156,10 @@ useEffect(() => {
                   </div>
 
                   {/* Error message */}
-                  {state?.error && (
-                    <div className="text-sm text-red-600">{state.error}</div>
+                  {(state?.error || state?.message) && state?.status !== "success" && (
+                    <div className="text-sm text-red-600">
+                      {state.error || state.message}
+                    </div>
                   )}
 
                   {/* Submit */}

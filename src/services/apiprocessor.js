@@ -14,12 +14,12 @@ export const apiProcessor = async ({
   payload,
   isPrivate,
   isAcessJWT = true,
+  token: providedToken,
 }) => {
-  console.log(payload);
   try {
     const headers = {};
     if (isPrivate) {
-      const token = isAcessJWT ? getAccessToken() : getRefreshToken();
+      const token = providedToken || (isAcessJWT ? getAccessToken() : getRefreshToken());
       if (isAcessJWT && !token) {
         console.error("Private request missing access token", { url, method });
         return { status: "error", message: "Missing access token" };
@@ -32,9 +32,7 @@ export const apiProcessor = async ({
       data: payload,
       headers,
     });
-    console.log(responsePending);
     const { data } = await responsePending;
-    console.log(data);
     
     // toast.success removed individually by components if needed
     // toast.error kept in catch or specifically handled? 
@@ -44,9 +42,9 @@ export const apiProcessor = async ({
     return data;
     return data;
   } catch (error) {
-    console.log("ERROR:", error.response?.data);
-    console.log("STATUS:", error.response?.status);
-    console.log("MESSAGE:", error.message);
+    console.error("ERROR:", error.response?.data);
+    console.error("STATUS:", error.response?.status);
+    console.error("MESSAGE:", error.message);
     const message = error.response?.data?.message || error.message;
     const payload = error.response?.data?.payload ?? null;
     toast.error(message);

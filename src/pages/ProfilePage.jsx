@@ -70,13 +70,6 @@ const ProfilePage = () => {
 
   // Fetch profile data if user is authenticated but profile data is incomplete
   useEffect(() => {
-    if (isAuthenticated && user && Object.keys(user).length <= 3) {
-      // Only _id, email, and maybe a few other basic fields
-      console.log(
-        "ProfilePage - User data incomplete, fetching full profile..."
-      );
-      dispatch(fetchProfileAction());
-    }
   }, [isAuthenticated, user, dispatch]);
 
   // Populate form data when user data is available
@@ -235,7 +228,6 @@ const ProfilePage = () => {
         githubUrl: formData.githubUrl || "",
       };
 
-      console.log("Updating profile:", profileUpdatePayload);
 
       // Call the real API
       const result = await dispatch(updateProfileAction(profileUpdatePayload));

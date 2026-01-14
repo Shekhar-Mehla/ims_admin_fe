@@ -15,9 +15,11 @@ export function createColumns({ columns, onEdit, onDelete, onView }) {
             <Button size="sm" variant="outline" onClick={() => onView?.(data)}>
               <Eye className="h-4 w-4" />
             </Button>
-            <Button size="sm" variant="outline" onClick={() => onEdit?.(data)}>
-              <Pencil className="h-4 w-4" />
-            </Button>
+            {onEdit && (
+              <Button size="sm" variant="outline" onClick={() => onEdit?.(data)}>
+                <Pencil className="h-4 w-4" />
+              </Button>
+            )}
 
             {onDelete && (
             <Button

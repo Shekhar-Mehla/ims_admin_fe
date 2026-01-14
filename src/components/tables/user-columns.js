@@ -16,8 +16,8 @@ export const userBaseColumns = [
       header: "Role",
     },
     {
-      accessorKey: "isVerified",
+      accessorKey: "verified",
       header: "Verified",
-      cell: ({ row }) => (row.original.isVerified ? "Yes" : "No"),
+      cell: ({ row }) => (row.original.verified ? "Yes" : "No"),
     },
   ];

@@ -7,7 +7,6 @@ import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 
 const DefaultLayout = () => {
   const { user } = useSelector((state) => state.userInfo);
-  console.log(user);
   return (
     <SidebarProvider>
       {user?._id && <SideBar />}

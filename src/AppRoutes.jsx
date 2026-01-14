@@ -3,6 +3,7 @@ import Login from "./pages/authPages/Login";
 import DefaultLayout from "./components/CustomComponents/DefaultLayout";
 
 import ForgotPassword from "./pages/authPages/ForgotPassword";
+import ResetPassword from "./pages/authPages/ResetPassword";
 
 import Intership from "./pages/internship/Intership";
 import CreateInternship from "./pages/internship/CreateInternship";
@@ -10,13 +11,16 @@ import ApplicationList from "./pages/application/ApplicationList";
 import UserList from "./pages/authPages/UserList";
 import AllInternship from "./pages/internship/AllInternship";
 import ApplicationView from "./pages/application/ApplicationView";
-import UpdateInternship from "./pages/internship/UpdateInternship ";
+import UpdateInternship from "./pages/internship/UpdateInternship";
 import ApplicationUpdate from "./pages/application/ApplicationUpdate";
 import RegisterNewUser from "./pages/authPages/NewUser";
 import ProtectedRoute from "./components/CustomComponents/ProtectedRoute";
 import DashBoard from "./pages/DashBoard";
 import ProfilePage from "./pages/ProfilePage";
 import NotificationPage from "./pages/NotificationPage";
+import UserView from "./pages/authPages/UserView";
+import UserEdit from "./pages/authPages/UserEdit";
+import NotFound from "./pages/NotFound";
 
 const AppRoutes = () => {
   return (
@@ -27,6 +31,10 @@ const AppRoutes = () => {
         <Route
           path="forgot-password"
           element={<ForgotPassword></ForgotPassword>}
+        ></Route>
+        <Route
+          path="reset-password"
+          element={<ResetPassword></ResetPassword>}
         ></Route>
 
         <Route
@@ -87,6 +95,14 @@ const AppRoutes = () => {
           }
         ></Route>
         <Route
+          path="internship/:slug"
+          element={
+            <ProtectedRoute>
+              <Intership></Intership>
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
           path="update_internship/:slug"
           element={
             <ProtectedRoute>
@@ -99,6 +115,22 @@ const AppRoutes = () => {
           element={
             <ProtectedRoute>
               <UserList></UserList>
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="user-view/:id"
+          element={
+            <ProtectedRoute>
+              <UserView></UserView>
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="user-edit/:id"
+          element={
+            <ProtectedRoute>
+              <UserEdit></UserEdit>
             </ProtectedRoute>
           }
         ></Route>
@@ -118,6 +150,7 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   );
