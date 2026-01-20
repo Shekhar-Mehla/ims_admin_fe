@@ -26,7 +26,7 @@ export const apiProcessor = async ({
       }
       headers.authorization = `Bearer ${token}`;
     }
-    const responsePending = axios({
+    const responsePending =await axios({
       url,
       method,
       data: payload,
@@ -40,7 +40,7 @@ export const apiProcessor = async ({
     // Success on every fetch is also annoying.
     
     return data;
-    return data;
+    
   } catch (error) {
     console.error("ERROR:", error.response?.data);
     console.error("STATUS:", error.response?.status);

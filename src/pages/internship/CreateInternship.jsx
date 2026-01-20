@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -12,8 +13,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { createInternshipApi } from "../../features/internship/internshipapi.js";
+import { toast } from "react-toastify";
 
 const CreateInternship = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -30,7 +33,7 @@ const CreateInternship = () => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const payload = {
       title: formData.title,
       description: formData.description,
@@ -43,7 +46,13 @@ const CreateInternship = () => {
     };
 
     // Call API to create internship
-    const result = createInternshipApi(payload);
+    const { status, message } = await createInternshipApi(payload);
+    if (status === "success" && message === "Internship created successfully") {
+      toast.success(message);
+      return navigate("/allinternships");
+    } else {
+      toast.error(message);
+    }
   };
 
   return (
